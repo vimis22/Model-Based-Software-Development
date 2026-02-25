@@ -6,18 +6,17 @@ class TableBuilder {
         this.name = name
     }
     
-    void column(String name, String type) {
-        columns << new Column(name: name, type: type)
+    void column(String name) {
+        columns << new Column(name: name)
     }
     
     void column(Map args) {
-        columns << new Column(name: args.name, type: args.type)
+        columns << new Column(name: args.name)
     }
 }
 
 class Column {
     String name
-    String type
 }
 
 def table(String name, @DelegatesTo(TableBuilder) Closure closure) {
@@ -30,12 +29,12 @@ def table(String name, @DelegatesTo(TableBuilder) Closure closure) {
 
 // Usage:
 def myTable = table("users", {
-    column "id", "INTEGER"
-    column "username", "VARCHAR"
-    column name: "email", type: "VARCHAR"
+    column "id"
+    column "username"
+    column name: "email"
 })
 
 println "Table: ${myTable.name}"
 myTable.columns.each { col ->
-    println "  Column: ${col.name} (${col.type})"
+    println "  Column: ${col.name}"
 }

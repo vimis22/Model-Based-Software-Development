@@ -1,8 +1,8 @@
 class TableBuilder {
     String name
     List<Column> columns = []
-    
-    void name(String name) {
+
+    TableBuilder(String name) {
         this.name = name
     }
     
@@ -20,8 +20,8 @@ class Column {
     String type
 }
 
-def table(@DelegatesTo(TableBuilder) Closure closure) {
-    def builder = new TableBuilder()
+def table(String name, @DelegatesTo(TableBuilder) Closure closure) {
+    def builder = new TableBuilder(name)
     closure.delegate = builder
     closure.resolveStrategy = Closure.DELEGATE_FIRST
     closure()
@@ -29,12 +29,11 @@ def table(@DelegatesTo(TableBuilder) Closure closure) {
 }
 
 // Usage:
-def myTable = table {
-    name "users"
+def myTable = table("users", {
     column "id", "INTEGER"
     column "username", "VARCHAR"
     column name: "email", type: "VARCHAR"
-}
+})
 
 println "Table: ${myTable.name}"
 myTable.columns.each { col ->

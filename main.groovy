@@ -3,19 +3,22 @@ import groovy.transform.ToString
 class Column {
     String name;
 
+    Column(String name) {
+        this.name = name;
+    }
 }
 
 @ToString
 class Table {
     String name;
-    Map<int, Column> columns;
+    Map<Integer, Column> columns = [:];
 
     Table(String name) {
         this.name = name;
     }
 
     void addColumn(int position, String columnName) {
-        this.columns[]
+        columns.put(position, new Column(columnName));
     }
 }
 

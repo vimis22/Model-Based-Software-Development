@@ -84,9 +84,7 @@ def myTable = new TableBuilder()
     .getTable()
 
 println "Table: ${myTable.name}"
-int i = 1
 myTable.columns.each { col ->
-    //println "  Column: ${col.key}, Expr: ${col.value.cells.get(2).expr.evaluate()}" //col.value.index to get index in column-object
     println "  Column: ${col.key}"
     col.value.cells.each { cellidx, cell ->
     println "        Cell: ${cellidx}"

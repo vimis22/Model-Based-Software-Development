@@ -1,0 +1,23 @@
+TABLE ::= ‘Table’ NrColumns COLUMN+
+NrColumns ::= ‘Columns’ Number
+COLUMN ::= ‘Column’ Letter WIDTH? ALIGNMENT? COLOR? Line* CELL*
+WIDTH ::= ‘Width’ Number ‘cm’
+ALIGNMENT ::= ‘Alignment’ Position
+COLOR ::= ‘Color’ ColorString
+CELL ::= ‘Cell’ Number COLOR? VALUE?
+VALUE ::= ‘Value’ (String | Expr | Math Expr)
+Math ::= ‘Sum’ | ‘Mean’ | ‘Median’ ….
+MathOps ::= ‘+’ | ‘-’ | ‘*’ | ….
+Expr ::= MathUnit (MathOps MathUnit)*
+CellRef ::= Letter Number
+MathUnit ::= Number | CellRef
+
+Number ::= 1 | 2 | … |
+Letter ::= ‘a’ | ‘b’ | …. | ‘A’ | ‘B’ | …
+Position ::= ‘left’ | ‘center’ | ‘right’
+Alphanumeric ::= Number | Letter
+ColorString ::= Letter+ | ‘#’ Alphanumeric+ | ‘RGB(‘ Number+ ‘,’ Number+ ‘,’ Number+ ‘)’
+Line ::= (‘rightVerticalLine’ | ‘leftVerticalLine’) Boolean
+Boolean ::= ‘true’ | ‘false’
+String ::= (Letter+ | Number+ | Symbols+)*
+Symbols ::= ‘#’ | ‘(‘ | ….

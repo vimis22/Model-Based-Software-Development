@@ -1,0 +1,28 @@
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+Table: 'Table' name=ID nrColumns=NrColumns (columns+=Column)+;
+
+//terminal NUMBER: ('0'..'9');
+terminal LINE: 'rightVerticalLine'|'leftVertical' BOOLEAN;
+terminal POSITION: 'left' | 'center' | 'right';
+terminal LETTER: ('a'..'z'|'A'..'Z');
+terminal ALPHANUMERIC: INT | LETTER;
+terminal COLORSTRING: LETTER+ | '#' ALPHANUMERIC+ | 'RGB('INT+','INT+','INT+')';
+terminal BOOLEAN: 'true' | 'false';
+
+Column: 'Column' letter=LETTER (width=WIDTH)? (alignment=ALIGNMENT)? (color=COLOR)? (line+=LINE)* (cell+=CELL)* ;
+NrColumns: 'Columns' Nr+=INT;
+WIDTH: 'Width' number=INT 'cm';
+ALIGNMENT: 'Alignment' position=POSITION;
+COLOR: 'Color' colorstring=COLORSTRING;
+CELL: 'Cell' number=INT color=COLOR? value=VALUE?;
+
+MATH: 'sum' | 'mean' |'median';
+MATHOPS: '+' | '-' |'*' |'/';
+CELLREF: letter=LETTER number=INT;
+CELLRANGE: rangestart=CELLREF ':' rangeend=CELLREF;
+MATHUNIT: number=INT | cellref=CELLREF | cellrange=CELLRANGE;
+EXPR: mathunit=MATHUNIT (mathops+=MATHOPS mathunit2+=MATHUNIT);
+VALUE: 'Value' (string=STRING | expr=EXPR | math=MATH mathexpr=EXPR);
